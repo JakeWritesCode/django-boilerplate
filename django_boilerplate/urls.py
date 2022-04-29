@@ -15,4 +15,5 @@ urlpatterns = [
 
     # Basic index view, remove when you want something better.
     path("", lambda request: render(request, "index.html"), name="index"),
+
 ]

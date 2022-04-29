@@ -24,31 +24,23 @@
                     <a class="nav-link" href="#">Add New User</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Log out</a>
+                    <a class="nav-link" href="{% url "log-out" %}">Log out</a>
                 </li>
             {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Log in</a>
+                    <a class="nav-link" href="{% url "log-in" %}">Log in</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "sign-up" %}">Sign up</a>
                 </li>
             {% endif %}
         </ul>
     </div>
 </nav>
 
-<div class="row">
-    <div class="mt-4 p-5 bg-primary text-white rounded">
-        <h1>Welcome to Django Boilerplate</h1>
-        <p>
-            This is a basic Django setup you can utilise for all those side projects
-            you're never going to finish...
-        </p>
-        <p>
-            <a href="https://github.com/JakeWritesCode/django-boilerplate" style="color: white">
-                Read the docs to get started
-            </a>
-        </p>
-    </div>
-</div>
+{% block content %}
+{% endblock %}
+
 
 </body>
 </html>
