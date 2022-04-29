@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Development settings."""
 
-from base import *
+from .base import *
 
 DEBUG = getenv("DEBUG", True)
 
