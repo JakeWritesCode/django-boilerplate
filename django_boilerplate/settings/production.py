@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """Production settings."""
 
-from base import *
+# 3rd-party
+from base import *  # noqa: F403
 
-DEBUG = getenv("DEBUG", False)
+DEBUG = getenv("DEBUG", False)  # noqa: F405
 ALLOWED_HOSTS = ["*"]

@@ -57,4 +57,3 @@ class CustomUser(AbstractUser):
 
     class Meta:  # noqa: D106
         pass
-

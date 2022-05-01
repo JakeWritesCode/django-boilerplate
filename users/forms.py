@@ -3,15 +3,11 @@
 
 # 3rd-party
 from django import forms
-from django.conf import settings
-
-from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.hashers import check_password
-
-# Project
 from django.core.exceptions import ValidationError
 
+# Project
 from users.models import CustomUser
 
 

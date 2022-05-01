@@ -62,7 +62,7 @@ def log_in(request):
             user = CustomUser.objects.get(email=form.cleaned_data["email"])
             login(request, user)
             messages.info(
-                request, f"Logged in successfully. Welcome {user.first_name} {user.last_name}"
+                request, f"Logged in successfully. Welcome {user.first_name} {user.last_name}",
             )
             return redirect(reverse("index"))
     return render(request, "log_in.html", {"form": form})
