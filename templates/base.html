@@ -15,29 +15,27 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url "index" %}">Django Boilerplate</a>
         <ul class="navbar-nav">
-
-            {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link active" href="/admin">Admin</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Add New User</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url "log-out" %}">Log out</a>
-                </li>
-            {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url "log-in" %}">Log in</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url "sign-up" %}">Sign up</a>
-                </li>
-            {% endif %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                    Auth
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="{% url "sign-up" %}">Sign up</a></li>
+                    <li><a class="dropdown-item" href="{% url "log-out" %}">Log out</a></li>
+                    <li><a class="dropdown-item" href="{% url "log-in" %}">Log in</a></li>
+                    <li><a class="dropdown-item" href="{% url "change-password" %}">Change Password</a></li>
+                    <li><a class="dropdown-item" href="{% url "reset-password" %}">Reset Password</a></li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/admin">Admin</a>
+            </li>
         </ul>
     </div>
 </nav>
 
+{% include "messages.html" %}
 {% block content %}
 {% endblock %}
 

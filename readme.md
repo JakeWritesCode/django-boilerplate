@@ -31,4 +31,10 @@ To run this project you'll need to set the following environment variables:
   - `POSTGRES_DB_PASSWORD` - Database password.
   - `POSTGRES_DB_HOST` - Database server host IP.
   - `POSTGRES_DB_PORT` - Database server port.
+- Email settings:
+  - I've gone out on a limb here and assumed you'll use gmail. If not, change the email host 
+and port to suit.
+  - `OUTGOING_GMAIL_ADDRESS` - yourmum@gmail.com
+  - `OUTGOING_GMAIL_APP_PASSWORD` - The app password for your account. *You need an app 
+password, not your normal password!*
 
