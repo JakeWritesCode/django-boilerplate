@@ -44,5 +44,4 @@ jobs:
           name: Flake8
           command: |
             flake8 django_boilerplate users
-      - codecov/upload:
-          token: {CODECOV_TOKEN}
+      - codecov/upload
