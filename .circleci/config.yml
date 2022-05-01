@@ -45,4 +45,4 @@ jobs:
           command: |
             flake8 django_boilerplate users
       - codecov/upload:
-          token: ${CODECOV_TOKEN}
+          token: {CODECOV_TOKEN}
