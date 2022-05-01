@@ -1,0 +1,34 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@1.2
+  codecov: codecov/codecov@3.0.0
+
+workflows:
+  sample:
+    jobs:
+      - build-and-test
+
+
+jobs:
+  build-and-test:
+    docker:
+      - image: cimg/python:3.9
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
+
+      - run:
+          name: Run tests
+          command: |
+            pytest --cov=. --cov-report=xml --ds=django_boilerplate.settings.test
+      - run:
+          name: Black
+          command: |
+            black -l 100 --check django_boilerplate users
+      - run:
+          name: Flake8
+          command: |
+            flake8 django_boilerplate users
+      - codecov/upload
