@@ -14,6 +14,19 @@ jobs:
   build-and-test:
     docker:
       - image: cimg/python:3.9
+        environment:
+          DJANGO_SECRET_KEY: test_django_secret_key
+          DEBUG: False
+          POSTGRES_DB_NAME: django_boilerplate
+          POSTGRES_DB_USER: django_boilerplate
+          POSTGRES_DB_PASSWORD: django_boilerplate
+          POSTGRES_DB_HOST: localhost
+          POSTGRES_DB_PORT: 5432
+      - image: cimg/postgres:14.0
+        environment:
+          POSTGRES_USER: django_boilerplate
+          POSTGRES_PASSWORD: django_boilerplate
+          POSTGRES_DB: django_boilerplate
     steps:
       - checkout
       - python/install-packages:
