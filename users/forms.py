@@ -37,7 +37,10 @@ class CustomUserLoginForm(forms.Form):
     def clean_password(self):
         """Check the password."""
         password = self.data["password"]
-        user = CustomUser.objects.get(email=self.cleaned_data["email"])
+        try:
+            user = CustomUser.objects.get(email=self.cleaned_data["email"])
+        except KeyError:
+            return password
         if not check_password(password, user.password):
             raise ValidationError("The entered password is incorrect.")
         return password
