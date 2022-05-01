@@ -19,20 +19,12 @@ class TestUserAdmin(TestCase):
         for i in self.admin.fieldsets:
             for j in i:
                 if isinstance(j, dict):
-                    try:
-                        fields = j["fields"]
-                    except KeyError:
-                        continue
-                    assert "username" not in fields
+                    assert "username" not in j["fields"]
 
         for i in self.admin.add_fieldsets:
             for j in i:
                 if isinstance(j, dict):
-                    try:
-                        fields = j["fields"]
-                    except KeyError:
-                        continue
-                    assert "username" not in fields
+                    assert "username" not in j["fields"]
 
         assert "username" not in self.admin.list_display
         assert "username" not in self.admin.search_fields
