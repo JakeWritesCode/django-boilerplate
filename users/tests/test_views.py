@@ -38,7 +38,8 @@ class TestLogIn(TestCase):
     def test_unsuccessful_login_renders_errors(self):
         """Unsuccessful login should render the applicable errors in the template."""
         response = self.client.post(
-            self.url, data={"email": "barry@white.com", "password": "not_a_password"},
+            self.url,
+            data={"email": "barry@white.com", "password": "not_a_password"},
         )
         for error in response.context["form"].errors.values():
             for error_text in error:
@@ -47,7 +48,8 @@ class TestLogIn(TestCase):
     def test_successful_login_auths_user_and_redirects(self):
         """A successful login should auth the user and redirect."""
         response = self.client.post(
-            self.url, data={"email": self.user.email, "password": self.password},
+            self.url,
+            data={"email": self.user.email, "password": self.password},
         )
         assert response.wsgi_request.user.is_authenticated
         assert response.url == reverse("index")
