@@ -279,7 +279,7 @@ class TestCustomPasswordResetConfirmView(TestCase):
 
         # adding messages
         messages = FallbackStorage(self.request)
-        setattr(self.request, "_messages", messages)
+        self.request._messages = messages
 
     def test_class_subclasses_django_view(self):
         """Class should subclass PasswordResetConfirmView."""
