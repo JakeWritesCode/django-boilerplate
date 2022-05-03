@@ -2,6 +2,7 @@
 """Test for users views."""
 # Standard Library
 from unittest.mock import ANY
+from unittest.mock import MagicMock
 from unittest.mock import patch
 
 # 3rd-party
@@ -9,8 +10,14 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.views import INTERNAL_RESET_SESSION_TOKEN
+from django.contrib.auth.views import PasswordResetConfirmView
+from django.contrib.messages.storage.fallback import FallbackStorage
+from django.contrib.sessions.middleware import SessionMiddleware
+from django.test import RequestFactory
 from django.test import TestCase
 from django.urls import reverse
+from django.urls import reverse_lazy
 
 # Project
 from users import views
@@ -18,6 +25,7 @@ from users.forms import CustomUserCreationForm
 from users.forms import CustomUserLoginForm
 from users.models import CustomUser
 from users.tests.factories import CustomUserFactory
+from users.views import CustomPasswordResetConfirmView
 
 
 class TestSignUp(TestCase):
@@ -255,3 +263,70 @@ class TestResetPassword(TestCase):
             email_template_name="password_reset_email.html",
             request=ANY,
         )
+
+
+class TestCustomPasswordResetConfirmView(TestCase):
+    """Tests for the custom password reset confirm view."""
+
+    def setUp(self) -> None:  # noqa: D102
+        self.request = RequestFactory().get("/")
+
+        # adding session
+        middleware = SessionMiddleware([])
+        middleware.process_request(self.request)
+        self.request.session[INTERNAL_RESET_SESSION_TOKEN] = "Fake token!"
+        self.request.session.save()
+
+        # adding messages
+        messages = FallbackStorage(self.request)
+        setattr(self.request, "_messages", messages)
+
+    def test_class_subclasses_django_view(self):
+        """Class should subclass PasswordResetConfirmView."""
+        assert isinstance(CustomPasswordResetConfirmView(), PasswordResetConfirmView)
+
+    def test_basic_config(self):
+        """Test basic config."""
+        assert CustomPasswordResetConfirmView.success_url == reverse_lazy("index")
+        assert CustomPasswordResetConfirmView.template_name == "reset_password_confirm.html"
+        assert CustomPasswordResetConfirmView.post_reset_login
+
+    @patch("users.views.login")
+    def test_form_valid_resets_password(self, mock_login):
+        """Function should delete the session reset token."""
+        view = CustomPasswordResetConfirmView()
+        view.request = self.request
+        view.form_valid(MagicMock())
+
+        assert INTERNAL_RESET_SESSION_TOKEN not in self.request.session.keys()
+
+    @patch("users.views.login")
+    def test_form_valid_calls_form_save(self, mock_login):
+        """Function should call the form save function."""
+        view = CustomPasswordResetConfirmView()
+        view.request = self.request
+        form = MagicMock()
+        view.form_valid(form)
+
+        form.save.assert_called_once()
+
+    @patch("users.views.login")
+    def test_form_valid_logs_user_in(self, mock_login):
+        """Function should log the user in."""
+        view = CustomPasswordResetConfirmView()
+        view.request = self.request
+        form = MagicMock()
+        form.save.return_value = "User"
+        view.form_valid(form)
+
+        mock_login.assert_called_once_with(self.request, "User", view.post_reset_login_backend)
+
+    @patch("users.views.login")
+    def test_form_valid_redirects_to_index(self, mock_login):
+        """Function should redirect to the index page."""
+        view = CustomPasswordResetConfirmView()
+        view.request = self.request
+        form = MagicMock()
+        response = view.form_valid(form)
+
+        assert response.url == reverse("index")

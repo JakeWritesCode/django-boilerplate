@@ -14,6 +14,7 @@ from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.views import INTERNAL_RESET_SESSION_TOKEN
 from django.contrib.auth.views import PasswordResetConfirmView
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -114,6 +115,7 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
 
     success_url = reverse_lazy("index")
     template_name = "reset_password_confirm.html"
+    post_reset_login = True
 
     def form_valid(self, form):
         """Send the confirmation of password rest as a message instead of a whole view."""
@@ -122,4 +124,4 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
         if self.post_reset_login:
             login(self.request, user, self.post_reset_login_backend)
         messages.info(self.request, "Your password has been reset!")
-        return super().form_valid(form)
+        return HttpResponseRedirect(self.get_success_url())
