@@ -43,7 +43,9 @@ class TestCustomUserLoginForm(TestCase):
 
     def test_form_does_not_validate_if_no_existing_user(self):
         """If there is no matching user, form should raise a ValidationError."""
-        self.form = CustomUserLoginForm(data={"email": "not@real.com", "password": "mypassword"})
+        self.form = CustomUserLoginForm(
+            data={"email": "not@real.com", "password": "mypassword"}
+        )
         self.form.is_valid()
         assert self.form.errors["email"] == ["A user with this email does not exist."]
 
@@ -51,7 +53,9 @@ class TestCustomUserLoginForm(TestCase):
         """Form should not validate if password is incorrect."""
         password = "testpassword"
         user = CustomUserFactory(password=make_password(password))
-        self.form = CustomUserLoginForm(data={"email": user.email, "password": "notdapassword"})
+        self.form = CustomUserLoginForm(
+            data={"email": user.email, "password": "notdapassword"}
+        )
         assert not self.form.is_valid()
         assert self.form.errors["password"] == ["The entered password is incorrect."]
 
@@ -59,5 +63,7 @@ class TestCustomUserLoginForm(TestCase):
         """If there is a matching user, form should validate."""
         password = "testpassword"
         user = CustomUserFactory(password=make_password(password))
-        self.form = CustomUserLoginForm(data={"email": user.email, "password": password})
+        self.form = CustomUserLoginForm(
+            data={"email": user.email, "password": password}
+        )
         assert self.form.is_valid()

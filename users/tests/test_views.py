@@ -288,7 +288,10 @@ class TestCustomPasswordResetConfirmView(TestCase):
     def test_basic_config(self):
         """Test basic config."""
         assert CustomPasswordResetConfirmView.success_url == reverse_lazy("index")
-        assert CustomPasswordResetConfirmView.template_name == "reset_password_confirm.html"
+        assert (
+            CustomPasswordResetConfirmView.template_name
+            == "reset_password_confirm.html"
+        )
         assert CustomPasswordResetConfirmView.post_reset_login
 
     @patch("users.views.login")
@@ -319,7 +322,9 @@ class TestCustomPasswordResetConfirmView(TestCase):
         form.save.return_value = "User"
         view.form_valid(form)
 
-        mock_login.assert_called_once_with(self.request, "User", view.post_reset_login_backend)
+        mock_login.assert_called_once_with(
+            self.request, "User", view.post_reset_login_backend
+        )
 
     @patch("users.views.login")
     def test_form_valid_redirects_to_index(self, mock_login):
