@@ -35,9 +35,7 @@ class TestCustomUserManager(TestCase):
     def test_create_user_calls_hidden_method(self):
         """Public method should call private method."""
         self.manager._create_user = MagicMock()
-        self.manager.create_user(
-            email="barry@white.com", password="DaPassword", is_admin=True
-        )
+        self.manager.create_user(email="barry@white.com", password="DaPassword", is_admin=True)
         self.manager._create_user.assert_called_once_with(
             "barry@white.com",
             "DaPassword",
@@ -49,23 +47,17 @@ class TestCustomUserManager(TestCase):
     def test_create_superuser_raises_error_if_staff_or_superuser_overridden(self):
         """Function should error if you try to override is_staff or is_superuser."""
         with self.assertRaises(ValueError) as e:
-            self.manager.create_superuser(
-                "barry@manilow.com", "SickPassword1", is_staff=False
-            )
+            self.manager.create_superuser("barry@manilow.com", "SickPassword1", is_staff=False)
         assert "Superuser must have is_staff=True." in str(e.exception)
 
         with self.assertRaises(ValueError) as e:
-            self.manager.create_superuser(
-                "barry@manilow.com", "SickPassword1", is_superuser=False
-            )
+            self.manager.create_superuser("barry@manilow.com", "SickPassword1", is_superuser=False)
         assert "Superuser must have is_superuser=True." in str(e.exception)
 
     def test_create_superuser_calls_create_user(self):
         """Function should call _create_user method with correct args."""
         self.manager._create_user = MagicMock()
-        self.manager.create_superuser(
-            email="barry@white.com", password="DaPassword", is_admin=True
-        )
+        self.manager.create_superuser(email="barry@white.com", password="DaPassword", is_admin=True)
         self.manager._create_user.assert_called_once_with(
             "barry@white.com",
             "DaPassword",

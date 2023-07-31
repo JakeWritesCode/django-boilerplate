@@ -35,7 +35,4 @@ class TestURLs(SimpleTestCase):
 
     def test_password_reset_confirm_url(self):
         """Test url."""
-        assert (
-            reverse("reset-password-confirm", args=[1, 1])
-            == "/users/reset-password-confirm/1/1"
-        )
+        assert reverse("reset-password-confirm", args=[1, 1]) == "/users/reset-password-confirm/1/1"
