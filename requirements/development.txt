@@ -1,4 +1,4 @@
-# Development settings, not required for production.
+# Development settings, not required for production
 -r production.txt
 
 black==23.7.0
