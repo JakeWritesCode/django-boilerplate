@@ -1,0 +1,20 @@
+[tool.flake8]
+max-line-length = 100
+inline-quotes = "
+exclude = [
+    "migrations"
+]
+ignore = [
+    "D401",
+    "W503"
+]
+
+[tool.black]
+line-length = 100
+target-version = ['py310']
+exclude = [
+    "migrations"
+]
+
+[tool.pytest]
+DJANGO_SETTINGS_MODULE = "django_boilerplate.settings.test"
