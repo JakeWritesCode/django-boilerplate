@@ -41,6 +41,14 @@ jobs:
           command: |
             black -l 100 --check django_boilerplate users
       - run:
+          name: Isort
+          command: |
+            isort --check-only --diff --recursive django_boilerplate users
+      - run:
+          name: Mypy
+          command: |
+            mypy --ignore-missing-imports --no-warn-no-return django_boilerplate users
+      - run:
           name: Flake8
           command: |
             flake8 django_boilerplate users
