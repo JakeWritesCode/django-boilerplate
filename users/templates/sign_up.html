@@ -14,54 +14,25 @@
                 <div class="card">
                     <div class="card-body">
                         <h2 class="text-center">Sign Up</h2>
-                        <!-- Google Sign in -->
-                        <div class="row">
-                            <div class="col">
-                                <a class="card mb-1" href="{% url "social:begin" "google-oauth2" %}">
-                                    <div class="card-body d-flex-row d-flex-vertical-center">
-                                        <i class="fa-brands fa-google sso-logo mr-2"></i>
-                                        <div style="width: 10px"></div>
-                                        <span class="sso-text pl-2"> Sign up with Google</span>
+                        {% for provider in social_auth_config.values %}
+                            {% if provider.enabled %}
+                                <div class="row">
+                                    <div class="col">
+                                        <a class="card mb-1" href="{{ provider.url }}">
+                                            <div class="card-body d-flex-row d-flex-vertical-center">
+                                                <i class="{{ provider.icon }} sso-logo mr-2"></i>
+                                                <div style="width: 10px"></div>
+                                                <span class="sso-text pl-2">
+                                                    Sign up with {{ provider.human_readable_name }}
+                                                </span>
+                                            </div>
+                                        </a>
                                     </div>
-                                </a>
-                            </div>
-                        </div>
-                        <!-- Facebook Sign in -->
-                        <div class="row">
-                            <div class="col">
-                                <a class="card mb-1" href="{% url "social:begin" "FacebookOAuth2" %}">
-                                    <div class="card-body d-flex-row d-flex-vertical-center">
-                                        <i class="fa-brands fa-facebook sso-logo mr-2"></i>
-                                        <div style="width: 10px"></div>
-                                        <span class="sso-text pl-2"> Sign up with Facebook</span>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <!-- Azure AD Sign in -->
-                        <div class="row">
-                            <div class="col">
-                                <a class="card mb-1" href="{% url "social:begin" "AzureADOAuth2" %}">
-                                    <div class="card-body d-flex-row d-flex-vertical-center">
-                                        <i class="fa-brands fa-microsoft sso-logo mr-2"></i>
-                                        <div style="width: 10px"></div>
-                                        <span class="sso-text pl-2"> Sign up with Microsoft</span>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <!-- Email -->
-                        <div class="row">
-                            <div class="col">
-                                <a class="card mb-1" href="{% url "sign-up-email" %}">
-                                    <div class="card-body d-flex-row d-flex-vertical-center">
-                                        <i class="fa-solid fa-envelope sso-logo mr-2"></i>
-                                        <div style="width: 10px"></div>
-                                        <span class="sso-text pl-2"> Sign up with Email</span>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
+                                </div>
+                                {% else %}
+                                Not {{ provider.human_readable_name }}
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
             </div>

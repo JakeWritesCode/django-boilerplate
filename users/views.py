@@ -6,6 +6,7 @@ We've overridden a bunch of stuff here because you'll inevitably want to change 
 """
 
 # 3rd-party
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth import logout
@@ -31,7 +32,13 @@ def sign_up(request):
     if request.user.is_authenticated:
         return redirect(reverse("index"))
 
-    return render(request, "sign_up.html")
+    return render(
+        request,
+        "sign_up.html",
+        {
+            "social_auth_config": settings.SOCIAL_AUTH_CONFIG,
+        },
+    )
 
 
 def sign_up_email(request):
