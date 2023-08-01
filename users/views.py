@@ -27,6 +27,14 @@ from users.models import CustomUser
 
 
 def sign_up(request):
+    """Base sign up view to select sign up method."""
+    if request.user.is_authenticated:
+        return redirect(reverse("index"))
+
+    return render(request, "sign_up.html")
+
+
+def sign_up_email(request):
     """Basic sign up view."""
     if request.user.is_authenticated:
         return redirect(reverse("index"))

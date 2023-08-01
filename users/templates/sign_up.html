@@ -1,21 +1,68 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'users/css/users.css' %}">
+{% endblock %}
 
 {% block content %}
 
     <div class="row" style="align-items: center; justify-content: center; height: 80vh">
-        <div class="col-12 col-md-8 col-lg-6 col-xl-4">
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="text-center">Sign Up</h2>
-                    <form method="post">
-                        {% csrf_token %}
-                        {{ form|crispy }}
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary" style="">Sign Up</button>
+        <div class="row" style="align-items: center; justify-content: center; height: 80vh">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="text-center">Sign Up</h2>
+                        <!-- Google Sign in -->
+                        <div class="row">
+                            <div class="col">
+                                <a class="card mb-1" href="{% url "social:begin" "google-oauth2" %}">
+                                    <div class="card-body d-flex-row d-flex-vertical-center">
+                                        <i class="fa-brands fa-google sso-logo mr-2"></i>
+                                        <div style="width: 10px"></div>
+                                        <span class="sso-text pl-2"> Sign up with Google</span>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
-                        <p>Already signed up? <a href="{% url "log-in" %}">Click here</a> to log in.</p>
-                    </form>
+                        <!-- Facebook Sign in -->
+                        <div class="row">
+                            <div class="col">
+                                <a class="card mb-1" href="{% url "social:begin" "FacebookOAuth2" %}">
+                                    <div class="card-body d-flex-row d-flex-vertical-center">
+                                        <i class="fa-brands fa-facebook sso-logo mr-2"></i>
+                                        <div style="width: 10px"></div>
+                                        <span class="sso-text pl-2"> Sign up with Facebook</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- Azure AD Sign in -->
+                        <div class="row">
+                            <div class="col">
+                                <a class="card mb-1" href="{% url "social:begin" "AzureADOAuth2" %}">
+                                    <div class="card-body d-flex-row d-flex-vertical-center">
+                                        <i class="fa-brands fa-microsoft sso-logo mr-2"></i>
+                                        <div style="width: 10px"></div>
+                                        <span class="sso-text pl-2"> Sign up with Microsoft</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- Email -->
+                        <div class="row">
+                            <div class="col">
+                                <a class="card mb-1" href="{% url "sign-up-email" %}">
+                                    <div class="card-body d-flex-row d-flex-vertical-center">
+                                        <i class="fa-solid fa-envelope sso-logo mr-2"></i>
+                                        <div style="width: 10px"></div>
+                                        <span class="sso-text pl-2"> Sign up with Email</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

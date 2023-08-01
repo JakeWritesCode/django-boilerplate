@@ -13,4 +13,5 @@ urlpatterns = [
     path("users/", include("users.urls")),
     # Basic index view, remove when you want something better.
     path("", lambda request: render(request, "index.html"), name="index"),
+    path("", include("social_django.urls", namespace="social_auth")),
 ]

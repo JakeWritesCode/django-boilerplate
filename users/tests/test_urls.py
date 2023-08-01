@@ -15,7 +15,7 @@ class TestURLs(SimpleTestCase):
 
     def test_sign_up_url(self):
         """Test url."""
-        assert reverse(views.sign_up) == "/users/sign-up"
+        assert reverse(views.sign_up_email) == "/users/sign-up"
 
     def test_log_in_url(self):
         """Test url."""

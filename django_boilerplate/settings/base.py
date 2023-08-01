@@ -12,6 +12,7 @@ from django.contrib.messages import constants as messages
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 SECRET_KEY = getenv("DJANGO_SECRET_KEY")
+DEBUG = getenv("DEBUG", False)
 
 # Application definition
 
@@ -26,6 +27,7 @@ INSTALLED_APPS = [
     "users",
     # 3rd party modules
     "crispy_forms",
+    "social_django",
 ]
 
 MIDDLEWARE = [
@@ -51,6 +53,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "social_django.context_processors.backends",
+                "social_django.context_processors.login_redirect",
             ],
         },
     },
@@ -68,7 +72,6 @@ DATABASES = {
         "PORT": getenv("POSTGRES_DB_PORT"),
     },
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -88,7 +91,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -100,7 +102,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
@@ -111,7 +112,6 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CRISPY_TEMPLATE_PACK = "bootstrap4"
-
 
 AUTH_USER_MODEL = "users.CustomUser"
 
@@ -131,3 +131,27 @@ MESSAGE_TAGS = {
     messages.WARNING: "alert-warning",
     messages.ERROR: "alert-danger",
 }
+
+SOCIAL_AUTH_JSONFIELD_ENABLED = True
+SOCIAL_AUTH_CONFIG = {
+    "Google": {
+        "enabled": True,
+        "backend": "social_core.backends.google.GoogleOAuth2",
+    },
+    "Facebook": {
+        "enabled": True,
+        "backend": "social_core.backends.facebook.FacebookOAuth2",
+    },
+    "Azure AD": {
+        "enabled": True,
+        "backend": "social_core.backends.azuread.AzureADOAuth2",
+    },
+    "Django": {
+        "enabled": True,
+        "backend": "django.contrib.auth.backends.ModelBackend",
+    },
+}
+AUTHENTICATION_BACKENDS = [
+    *[provider["backend"] for provider in SOCIAL_AUTH_CONFIG.values() if provider["enabled"]],
+]
+SOCIAL_AUTH_URL_NAMESPACE = "social_auth"

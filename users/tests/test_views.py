@@ -32,7 +32,7 @@ class TestSignUp(TestCase):
     """Tests for the signup view."""
 
     def setUp(self) -> None:  # noqa: D102
-        self.url = reverse(views.sign_up)
+        self.url = reverse(views.sign_up_email)
         self.password = "$uper_Str0ng_P4$$word!?"
         self.user = CustomUserFactory(password=make_password(self.password))
         self.user_data = {
