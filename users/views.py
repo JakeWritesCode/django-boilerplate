@@ -66,6 +66,20 @@ def log_out(request):
 
 
 def log_in(request):
+    """Base sign up view to select sign up method."""
+    if request.user.is_authenticated:
+        return redirect(reverse("index"))
+
+    return render(
+        request,
+        "log_in.html",
+        {
+            "social_auth_config": settings.SOCIAL_AUTH_CONFIG,
+        },
+    )
+
+
+def log_in_email(request):
     """Log the user in."""
     if request.user.is_authenticated:
         messages.info(request, "You are already logged in.")

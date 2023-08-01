@@ -172,6 +172,7 @@ SOCIAL_AUTH_CONFIG = {
         "url": reverse_lazy("sign-up-email"),
     },
 }
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/"
 
 # This stuff is fed from the dict above
 AUTHENTICATION_BACKENDS = [
