@@ -13,13 +13,21 @@ from users import views
 class TestURLs(SimpleTestCase):
     """Test URLS for users app."""
 
-    def test_sign_up_url(self):
+    def test_sign_up_home_url(self):
         """Test url."""
-        assert reverse(views.sign_up_email) == "/users/sign-up"
+        assert reverse(views.sign_up) == "/users/sign-up"
+
+    def test_sign_up_email_url(self):
+        """Test url."""
+        assert reverse(views.sign_up_email) == "/users/sign-up/email"
 
     def test_log_in_url(self):
         """Test url."""
         assert reverse(views.log_in) == "/users/log-in"
+
+    def test_log_in_email_url(self):
+        """Test url."""
+        assert reverse(views.log_in_email) == "/users/log-in/email"
 
     def test_log_out_url(self):
         """Test url."""

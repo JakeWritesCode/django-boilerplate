@@ -46,7 +46,7 @@ class TestSignUp(TestCase):
     def test_view_renders_correct_template(self):
         """View should render the correct template."""
         response = self.client.get(self.url)
-        self.assertTemplateUsed(response, "sign_up.html")
+        self.assertTemplateUsed(response, "sign_up_email.html")
 
     def test_view_redirects_if_user_is_logged_in(self):
         """View should redirect if the user is authed."""
@@ -116,14 +116,14 @@ class TestLogIn(TestCase):
     """Tests for the login view."""
 
     def setUp(self) -> None:  # noqa: D102
-        self.url = reverse(views.log_in)
+        self.url = reverse(views.log_in_email)
         self.password = "mypassword"
         self.user = CustomUserFactory(password=make_password(self.password))
 
     def test_view_renders_correct_template(self):
         """View should render the correct template."""
         response = self.client.get(self.url)
-        self.assertTemplateUsed(response, "log_in.html")
+        self.assertTemplateUsed(response, "log_in_email.html")
 
     def test_view_redirects_if_user_is_logged_in(self):
         """View should redirect if the user is authed."""
@@ -133,7 +133,7 @@ class TestLogIn(TestCase):
 
     def test_view_renders_correct_form(self):
         """View should render the corect form."""
-        response = self.client.get(reverse("log-in"))
+        response = self.client.get(reverse("log-in-email"))
         assert isinstance(response.context["form"], CustomUserLoginForm)
 
     def test_unsuccessful_login_renders_errors(self):
