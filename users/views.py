@@ -6,6 +6,7 @@ We've overridden a bunch of stuff here because you'll inevitably want to change 
 """
 
 # 3rd-party
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth import logout
@@ -27,6 +28,20 @@ from users.models import CustomUser
 
 
 def sign_up(request):
+    """Base sign up view to select sign up method."""
+    if request.user.is_authenticated:
+        return redirect(reverse("index"))
+
+    return render(
+        request,
+        "sign_up.html",
+        {
+            "social_auth_config": settings.SOCIAL_AUTH_CONFIG,
+        },
+    )
+
+
+def sign_up_email(request):
     """Basic sign up view."""
     if request.user.is_authenticated:
         return redirect(reverse("index"))
@@ -36,10 +51,10 @@ def sign_up(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=True)
-            login(request, user)
+            login(request, user, backend="django.contrib.auth.backends.ModelBackend")
             return redirect(reverse("index"))
 
-    return render(request, "sign_up.html", {"form": form})
+    return render(request, "sign_up_email.html", {"form": form})
 
 
 def log_out(request):
@@ -51,6 +66,20 @@ def log_out(request):
 
 
 def log_in(request):
+    """Base sign up view to select sign up method."""
+    if request.user.is_authenticated:
+        return redirect(reverse("index"))
+
+    return render(
+        request,
+        "log_in.html",
+        {
+            "social_auth_config": settings.SOCIAL_AUTH_CONFIG,
+        },
+    )
+
+
+def log_in_email(request):
     """Log the user in."""
     if request.user.is_authenticated:
         messages.info(request, "You are already logged in.")
@@ -61,13 +90,13 @@ def log_in(request):
         form = CustomUserLoginForm(request.POST)
         if form.is_valid():
             user = CustomUser.objects.get(email=form.cleaned_data["email"])
-            login(request, user)
+            login(request, user, backend="django.contrib.auth.backends.ModelBackend")
             messages.info(
                 request,
                 f"Logged in successfully. Welcome {user.first_name} {user.last_name}",
             )
             return redirect(reverse("index"))
-    return render(request, "log_in.html", {"form": form})
+    return render(request, "log_in_email.html", {"form": form})
 
 
 def change_password(request):
