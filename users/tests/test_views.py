@@ -5,6 +5,7 @@ from unittest.mock import ANY
 from unittest.mock import MagicMock
 from unittest.mock import patch
 
+from django.conf import settings
 # 3rd-party
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.forms import PasswordResetForm
@@ -27,8 +28,32 @@ from users.models import CustomUser
 from users.tests.factories import CustomUserFactory
 from users.views import CustomPasswordResetConfirmView
 
-
 class TestSignUp(TestCase):
+    """Tests for the signup view."""
+
+    def setUp(self) -> None:  # noqa: D102
+        self.url = reverse(views.sign_up)
+        self.password = "$uper_Str0ng_P4$$word!?"
+        self.user = CustomUserFactory(password=make_password(self.password))
+
+    def test_view_renders_correct_template(self):
+        """View should render the correct template."""
+        response = self.client.get(self.url)
+        self.assertTemplateUsed(response, "sign_up.html")
+
+    def test_view_redirects_if_user_is_logged_in(self):
+        """View should redirect if the user is authed."""
+        self.client.login(email=self.user.email, password=self.password)
+        response = self.client.get(self.url)
+        assert response.url == reverse("index")
+
+    def test_view_renders_social_auth_config(self):
+        """View should render the social auth config."""
+        response = self.client.get(self.url)
+        assert response.context["social_auth_config"] == settings.SOCIAL_AUTH_CONFIG
+
+
+class TestSignUpEmail(TestCase):
     """Tests for the signup view."""
 
     def setUp(self) -> None:  # noqa: D102
@@ -113,6 +138,29 @@ class TestLogOut(TestCase):
 
 
 class TestLogIn(TestCase):
+
+    def setUp(self) -> None:  # noqa: D102
+        self.url = reverse(views.log_in)
+        self.password = "mypassword"
+        self.user = CustomUserFactory(password=make_password(self.password))
+
+    def test_view_renders_correct_template(self):
+        """View should render the correct template."""
+        response = self.client.get(self.url)
+        self.assertTemplateUsed(response, "log_in.html")
+
+    def test_view_redirects_if_user_is_logged_in(self):
+        """View should redirect if the user is authed."""
+        self.client.login(email=self.user.email, password=self.password)
+        response = self.client.get(self.url)
+        assert response.url == reverse("index")
+
+    def test_view_renders_social_auth_config(self):
+        """View should render the social auth config."""
+        response = self.client.get(self.url)
+        assert response.context["social_auth_config"] == settings.SOCIAL_AUTH_CONFIG
+
+class TestLogInEmail(TestCase):
     """Tests for the login view."""
 
     def setUp(self) -> None:  # noqa: D102
