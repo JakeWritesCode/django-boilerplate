@@ -139,6 +139,8 @@ class TestLogOut(TestCase):
 
 
 class TestLogIn(TestCase):
+    """Tests for the login view."""
+
     def setUp(self) -> None:  # noqa: D102
         self.url = reverse(views.log_in)
         self.password = "mypassword"
