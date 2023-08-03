@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """Urls for users app."""
 # 3rd-party
-from django.conf import settings
 from django.urls import path
 
 # Local
@@ -21,9 +20,3 @@ urlpatterns = [
         name="reset-password-confirm",
     ),
 ]
-
-if settings.DEBUG:
-    # 3rd-party
-    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-
-    urlpatterns += staticfiles_urlpatterns()
