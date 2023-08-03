@@ -5,8 +5,8 @@ from unittest.mock import ANY
 from unittest.mock import MagicMock
 from unittest.mock import patch
 
-from django.conf import settings
 # 3rd-party
+from django.conf import settings
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.hashers import check_password
@@ -27,6 +27,7 @@ from users.forms import CustomUserLoginForm
 from users.models import CustomUser
 from users.tests.factories import CustomUserFactory
 from users.views import CustomPasswordResetConfirmView
+
 
 class TestSignUp(TestCase):
     """Tests for the signup view."""
@@ -138,7 +139,6 @@ class TestLogOut(TestCase):
 
 
 class TestLogIn(TestCase):
-
     def setUp(self) -> None:  # noqa: D102
         self.url = reverse(views.log_in)
         self.password = "mypassword"
@@ -159,6 +159,7 @@ class TestLogIn(TestCase):
         """View should render the social auth config."""
         response = self.client.get(self.url)
         assert response.context["social_auth_config"] == settings.SOCIAL_AUTH_CONFIG
+
 
 class TestLogInEmail(TestCase):
     """Tests for the login view."""
