@@ -15,6 +15,7 @@ This project has the following features implemented:
  - Split out settings files for production and development.
  - Split out requirements files for production and dev.
  - A basic CircleCI config.
+ - SSO back to most things using django-social-auth, I've configured Google, Meta and MS Exchange.
 
 
 ## Notes:
